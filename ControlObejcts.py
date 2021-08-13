@@ -3,7 +3,6 @@
 # **************************
 
 # 1. 오브젝트를 선택하는 방법
-
 import maya.cmds as cmds
 
 cmds.select(all=True)
@@ -36,3 +35,46 @@ cmds.select(select_object[::2])
 # 리스트에 있는 오브젝트를 하나씩 건너뛰면서 선택
 
 # 이렇게 다양한 방법으로 "선택한" 오브젝트의 목록을 다룰 수 있다.
+
+
+# 3. 오브젝트의 속성을 알아내는 방법
+# getAttr 명령을 통해 오브젝트의 속성을 알아낼 수 있다.
+import maya.cmds as mcds
+
+selected = cmds.ls(selection = True)
+for sel_ in selected:
+	translated_x = cmds.getAttr("%s.translateX" % sel_)
+	translated_y = cmds.getAttr("%s.translateY" % sel_)
+	translated_z = cmds.getAttr("%s.translateZ" % sel_)
+	print(sel_)
+	print translated_x
+	print translated_y
+	print translated_z
+
+# getAttr 명령은 Attribute Editor의 정보를 알아내는 것이기 때문에, 같은 방법으로 Rotate, Scale 등의 값도 알아낼 수 있다.
+import maya.cmds as cmds
+
+selected = cmds.ls(selection = True)
+for sel_ in selected:
+	rotated_x = cmds.getAttr("%s.rotateX" % sel_)
+	rotated_y = cmds.getAttr("%s.rotateY" % sel_)
+	rotated_z = cmds.getAttr("%s.rotateZ" % sel_)
+	print(sel_)
+	print rotated_x
+	print rotated_y
+	print rotated_z
+
+# getAttr가 아닌 xform 명령어를 이용해 오브젝트의 위치를 알아낼 수도 있다
+import maya.cmds as cmds
+
+selected = cmds.ls(sl = 1, fl = 1)
+for sel_ in selected :
+	print sel_
+	get_position = cmds.xform(sel_, q=1, ws= 1, t=1)
+	print get_position
+
+# vertex에도 사용 가능!
+import maya.cmds as cmds
+
+get_position = [cmds.xform(i, q=1, ws=1, t=1) for i in cmds.ls(sl = 1, fl=1)]
+print get_position
