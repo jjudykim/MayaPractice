@@ -2,7 +2,7 @@
 # *      오브젝트 다루기      *
 # **************************
 
-# 1. 오브젝트를 선택하는 방법
+# 1. 오브젝트를 선택하는 방법 ======================================
 import maya.cmds as cmds
 
 cmds.select(all=True)
@@ -10,7 +10,8 @@ cmds.select(all=True)
 # 위 코드를 사용해서 '모든(카메라 포함)' 객체들을 선택할 수 있다
 
 
-# 2. 선택한 오브젝트의 목록 다루기
+
+# 2. 선택한 오브젝트의 목록 다루기 ===================================
 import maya.cmds as cmds
 select_object = cmds.ls(sl=1)
 # 선택한 오브젝트의 목록을 select_object라는 변수에 넣는다.
@@ -37,7 +38,7 @@ cmds.select(select_object[::2])
 # 이렇게 다양한 방법으로 "선택한" 오브젝트의 목록을 다룰 수 있다.
 
 
-# 3. 오브젝트의 속성을 알아내는 방법
+# 3. 오브젝트의 속성을 알아내는 방법 ======================================
 # getAttr 명령을 통해 오브젝트의 속성을 알아낼 수 있다.
 import maya.cmds as mcds
 
@@ -78,3 +79,27 @@ import maya.cmds as cmds
 
 get_position = [cmds.xform(i, q=1, ws=1, t=1) for i in cmds.ls(sl = 1, fl=1)]
 print get_position
+
+
+# 4. 포인트의 위치를 알아내는 방법 ======================================
+# 커브의 CV, Object의 vertex와 같이 점으로 된 포인트의 위치만 알아내는 명령어.
+# curve1의 cv 위치를 지정해보겠다
+import maya.cmds as cmds
+print cmds.pointPosition('curve1.cv[1]')
+# -> curve의 point위치가 나타난다!
+
+#선택한 커브의 CV, 혹은 오브젝트의 버텍스들의 위치를 알아내기
+
+import maya.cmds as cmds
+selected = cmds.ls(selection = True, flatten = True)
+#fi 플래그가 핵심!
+for sel_ in selected:
+	print(sel_)
+	position = cmds.pointPosition(sel_)
+	print position
+
+
+# 번외로 ================================================================
+# 마야에 포함된 파이썬 버전 확인하기
+import sys
+print sys.version
